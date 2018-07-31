@@ -1,4 +1,4 @@
-function imshow_categorical(f, vs, z, slice)
+function h = imshow_categorical(f, vs, z, slice)
 
     if nargin < 4
         slice = 3;
@@ -31,7 +31,7 @@ function imshow_categorical(f, vs, z, slice)
 %     end
     f = permute(f, [2 1 3]);
     asp = 1./[vs(2) vs(1) 1];
-    figure, image(f(end:-1:1,:,:));
+    h = image(f(end:-1:1,:,:));
     daspect(asp);
     axis off
 
