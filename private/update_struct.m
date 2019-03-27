@@ -4,7 +4,7 @@ function out = update_struct(new, old)
 % old - Struct (can be hierarchical) with original values.
 %
 % Updates the values of old with those of new.
-% - Fields of old wchich are not in new are kept unchanged.
+% - Fields of old which are not in new are kept unchanged.
 % - If some fields of new are also structures (hierarchical object), they 
 %   are also updated and not entirely overwritten.
     if nargin < 1
