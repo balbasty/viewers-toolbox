@@ -189,11 +189,11 @@ classdef ImageSection < handle & AdvancedResize
             
             % Post processing
             if opt.DefaultTitle && isempty(opt.Title)
-                if issame(opt.WhichSection, [1 2])
+                if isequal(opt.WhichSection, [1 2])
                     opt.Title = 'Coronal';
-                elseif issame(opt.WhichSection, [1 3])
+                elseif isequal(opt.WhichSection, [1 3])
                     opt.Title = 'Axial';
-                elseif issame(opt.WhichSection, [2 3])
+                elseif isequal(opt.WhichSection, [2 3])
                     opt.Title = 'Sagittal';
                 end
             else
@@ -227,7 +227,7 @@ classdef ImageSection < handle & AdvancedResize
             end
             % I am doing a cast towards single as a (temporar) way to make
             % it work with handle_array objects.
-            obj.Section = reshape(numeric(obj.Section), dim(obj.WhichSection));
+            obj.Section = reshape(ensure_numeric(obj.Section), dim(obj.WhichSection));
         end
         function autotitle(obj, value)
             if nargin < 2
@@ -237,11 +237,11 @@ classdef ImageSection < handle & AdvancedResize
                 obj.uititle = 0;
             end
             if obj.DefaultTitle && isempty(value)
-                if issame(obj.WhichSection, [1 2])
+                if isequal(obj.WhichSection, [1 2])
                     newtitle = 'Coronal';
-                elseif issame(obj.WhichSection, [1 3])
+                elseif isequal(obj.WhichSection, [1 3])
                     newtitle = 'Axial';
-                elseif issame(obj.WhichSection, [2 3])
+                elseif isequal(obj.WhichSection, [2 3])
                     newtitle = 'Sagittal';
                 else
                     newtitle = ['[', ...
