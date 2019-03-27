@@ -1,7 +1,13 @@
-function h = imshow_categorical(f, vs, z, slice, pal)
+function h = imshow_mri(f, vs, z, slice, palette, scale)
 
     if nargin < 5
-        pal = [];
+        palette = 'gray';
+    end
+    if ischar(palette)
+        palette = colormap(palette);
+    end
+    if isa(palette, 'function_handle')
+        palette = palette();
     end
     if nargin < 4
         slice = 3;
@@ -23,21 +29,27 @@ function h = imshow_categorical(f, vs, z, slice, pal)
     end
     switch slice
         case 1
-            f = catToColor(reshape(f(z,:,:,:), [dim(2) dim(3) dim(4)]), pal);
+            f = reshape(f(z,:,:,:), [dim(2) dim(3) dim(4)]);
         case 2
-            f = catToColor(reshape(f(:,z,:,:), [dim(1) dim(3) dim(4)]), pal);
+            f = reshape(f(:,z,:,:), [dim(1) dim(3) dim(4)]);
         case 3
-            f = catToColor(reshape(f(:,:,z,:), [dim(1) dim(2) dim(4)]), pal);
+            f = reshape(f(:,:,z,:), [dim(1) dim(2) dim(4)]);
         otherwise
             error('not handled')
     end
-
+    
+    if nargin < 6
+        scale = [min(f(:)) max(f(:))];
+    end
+    f = round((f-scale(1))/(scale(2)-scale(1))*size(palette,1)+1);
+    f = ind2rgb(f, palette);
 %     if dim(4) > 1
 %         f = reshape(f, [dim(1:2) dim(4)]);
 %     end
     f = permute(f, [2 1 3]);
     asp = 1./[vs(2) vs(1) 1];
-    h = image(f(end:-1:1,:,:));
+    h = imagesc(f(end:-1:1,:,:));
+    colormap(palette)
     daspect(asp);
     axis off
 

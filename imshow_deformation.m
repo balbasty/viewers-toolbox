@@ -12,7 +12,7 @@ function h = imshow_deformation(d, vs, z, slice, nrm)
     end
     dim = [size(d) 1 1];
     if numel(size(d)) == 3
-        d = reshape(numeric(d),  [dim(1) dim(2) 1 dim(3)]);
+        d = reshape(ensure_numeric(d),  [dim(1) dim(2) 1 dim(3)]);
         d(:,:,:,3) = 0;
         dim = [size(d) 1 1];
     end
@@ -26,6 +26,9 @@ function h = imshow_deformation(d, vs, z, slice, nrm)
     end
     if nargin < 2
         vs = [1 1 1];
+    end
+    if size(vs,1) == 4 && size(vs,2) == 4
+        vs = sqrt(sum(vs(1:3,1:3).^2));
     end
     switch slice
         case 1
