@@ -1,5 +1,11 @@
 function h = imshow_deformation(d, vs, z, slice, nrm)
 
+    dim = size(d);
+    if numel(dim) > 4
+        dim = [dim(1:3) dim(end)];
+        d   = reshape(d, dim);
+    end
+
     if nargin < 5
         nrm = nan;
         if nargin < 4
